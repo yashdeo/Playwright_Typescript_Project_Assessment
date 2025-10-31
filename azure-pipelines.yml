@@ -1,4 +1,4 @@
-# .azure-pipelines.yml
+# Azure Pipeline for Playwright + TypeScript project
 trigger:
   branches:
     include:
@@ -8,45 +8,44 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  # 1. Get code from GitHub
+  # 1️⃣ Checkout code from GitHub
   - checkout: self
 
-  # 2. Use Node.js 20 (Playwright works well with it)
+  # 2️⃣ Install Node.js 20
   - task: NodeTool@0
-    displayName: "Use Node.js 20"
     inputs:
       versionSpec: '20.x'
+    displayName: 'Setup Node.js 20'
 
-  # 3. Install dependencies
+  # 3️⃣ Install dependencies
   - script: |
       npm ci
-    displayName: "Install npm packages"
+    displayName: 'Install npm packages'
 
-  # 4. Install Playwright browsers (very important in CI)
+  # 4️⃣ Install Playwright browsers
   - script: |
       npx playwright install --with-deps
-    displayName: "Install Playwright browsers"
+    displayName: 'Install Playwright browsers'
 
-  # 5. Run Playwright tests
+  # 5️⃣ Run Playwright tests
   - script: |
       npx playwright test --reporter=junit,line
-    displayName: "Run Playwright tests"
-    continueOnError: true   # so we can still publish report even if tests fail
+    displayName: 'Run Playwright tests'
+    continueOnError: true   # allows test results publishing even if tests fail
 
-  # 6. Publish test results into Azure DevOps
+  # 6️⃣ Publish test results in Azure DevOps
   - task: PublishTestResults@2
-    displayName: "Publish Playwright test results"
+    displayName: 'Publish Playwright test results'
     condition: succeededOrFailed()
     inputs:
       testResultsFiles: '**/results.xml'
       testResultsFormat: 'JUnit'
       searchFolder: '$(System.DefaultWorkingDirectory)'
-      testRunTitle: 'Playwright Tests on Azure Pipelines'
+      testRunTitle: 'Playwright Tests'
 
-  # 7. Publish HTML report (if you generate one later)
-  # You can remove this if you don't need artifacts
+  # 7️⃣ (Optional) Publish HTML report artifact
   - task: PublishBuildArtifacts@1
-    displayName: "Publish Test Artifact"
+    displayName: 'Publish HTML report'
     inputs:
       PathtoPublish: 'playwright-report'
       ArtifactName: 'playwright-report'
