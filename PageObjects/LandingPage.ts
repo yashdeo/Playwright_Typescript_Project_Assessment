@@ -22,7 +22,7 @@ export class LandingPage {
   }
 
   async open() {
-    await this.page.goto("https://automationintesting.online/", { waitUntil: "load" });
+    await this.page.goto("/", { waitUntil: "load" });
   }
 
   async verifyLandingPage() {
