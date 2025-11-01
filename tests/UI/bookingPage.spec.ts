@@ -5,7 +5,6 @@ import { BookingPage } from "../../PageObjects/BookingPage.ts";
 test("Verify Booking and Contact form", async ({ page }) => {
   const landing = new LandingPage(page);
   const booking = new BookingPage(page);
-
   await landing.open();
   await landing.navigateToBooking();
   await booking.checkBookingSection();

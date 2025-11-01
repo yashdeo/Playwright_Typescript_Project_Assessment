@@ -1,17 +1,15 @@
 import { Page, expect } from "@playwright/test";
 
 export class LandingPage {
-  readonly page: Page;
-  readonly logoLink;
-  readonly navRooms;
-  readonly navBooking;
-  readonly navAmenities;
-  readonly navLocation;
-  readonly navContact;
-  readonly navAdmin;
+  private readonly logoLink;
+  private readonly navRooms;
+  private readonly navBooking;
+  private readonly navAmenities;
+  private readonly navLocation;
+  private readonly navContact;
+  private readonly navAdmin;
 
-  constructor(page: Page) {
-    this.page = page;
+  constructor(private page: Page) {
     this.logoLink = page.getByRole("link", { name: "Shady Meadows B&B" });
     this.navRooms = page.locator("#navbarNav").getByRole("link", { name: "Rooms" });
     this.navBooking = page.locator("#navbarNav").getByRole("link", { name: "Booking" });

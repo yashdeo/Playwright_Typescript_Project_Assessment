@@ -1,15 +1,12 @@
-import { test } from "@playwright/test";
-import { LandingPage } from "../../PageObjects/LandingPage.ts"
-import { AdminPage } from "../../PageObjects/AdminPage.ts"
+import { test, expect } from "../UI/fixtures/allPageFixture"; // ✅ use your fixture version
 
-test("Admin login and logout flow", async ({ page }) => {
-  const landing = new LandingPage(page);
-  const admin = new AdminPage(page);
+test("Admin login and logout flow", async ({ landingPage, adminPage }) => {
+  await landingPage.open();
+  await landingPage.navigateToAdmin();
 
-  await landing.open();
-  await landing.navigateToAdmin();
-  await admin.login("testtester", "Password1");
-  await admin.verifyInvalidLogin();
-  await admin.verifyLoggedIn();
-  await admin.logout();
+  await adminPage.login("testtester", "Password1");
+  await adminPage.verifyInvalidLogin(); // if invalid credentials are expected
+  await adminPage.verifyLoggedIn();     // or skip this if only testing invalid login
+  await adminPage.logout();
 });
+
