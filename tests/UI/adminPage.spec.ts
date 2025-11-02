@@ -1,15 +1,18 @@
-import { test } from "@playwright/test";
-import { LandingPage } from "../../PageObjects/LandingPage.ts"
-import { AdminPage } from "../../PageObjects/AdminPage.ts"
+import { test, expect } from "@fixtures";
 
-test("Admin login and logout flow", async ({ page }) => {
-  const landing = new LandingPage(page);
-  const admin = new AdminPage(page);
+test.describe("Admin Page Tests", () => {
 
-  await landing.open();
-  await landing.navigateToAdmin();
-  await admin.login("testtester", "Password1");
-  await admin.verifyInvalidLogin();
-  await admin.verifyLoggedIn();
-  await admin.logout();
+  test.beforeEach(async ({ allPages }) => {
+    await allPages.openBaseURL();
+    await allPages.landingPage.navigateToAdmin();
+  });
+
+  test("Admin login and logout flow", async ({ allPages }) => {
+    const { adminPage } = allPages;
+
+    await adminPage.login("testtester", "Password1");
+    await adminPage.verifyInvalidLogin(); // for invalid creds scenario
+    await adminPage.verifyLoggedIn();     // or skip if invalid only
+    await adminPage.logout();
+  });
 });

@@ -41,6 +41,14 @@ export default defineConfig({
     //video: 'retain-on-failure',
   },
 
+
+  globalTeardown: undefined,
+
+  // All the fixtures path 
+  metadata: {
+    fixtureFile: "./fixtures/appFixture.ts",
+  },
+
   /* Major browsers */
   projects: [
     {
