@@ -1,13 +1,9 @@
-import { test } from "@playwright/test";
-import { LandingPage } from "../../PageObjects/LandingPage.ts"
-import { BookingPage } from "../../PageObjects/BookingPage.ts";
+import { test, expect } from "@fixtures";
 
-test("Verify Booking and Contact form", async ({ page }) => {
-  const landing = new LandingPage(page);
-  const booking = new BookingPage(page);
-  await landing.open();
-  await landing.navigateToBooking();
-  await booking.checkBookingSection();
-  await landing.navigateToContact();
-  await booking.submitContactForm();
+test("Verify Booking and Contact form", async ({ allPages }) => {
+  await allPages.openBaseURL();
+  await allPages.landingPage.navigateToBooking();
+  await allPages.bookingPage.checkBookingSection();
+  await allPages.landingPage.navigateToContact();
+  await allPages.bookingPage.submitContactForm();
 });
