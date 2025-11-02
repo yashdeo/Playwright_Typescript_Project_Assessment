@@ -1,6 +1,8 @@
-import { test, expect } from "../UI/fixtures/allPageFixture"; // ✅ use your fixture version
+import { test, expect } from "./fixtures/allPageFixture"; // ✅ use your fixture version
 
-test("Admin login and logout flow", async ({ landingPage, adminPage }) => {
+test.only("Admin login and logout flow", async ({ allPages }) => {
+   const { landingPage, adminPage } = allPages;
+
   await landingPage.open();
   await landingPage.navigateToAdmin();
 
