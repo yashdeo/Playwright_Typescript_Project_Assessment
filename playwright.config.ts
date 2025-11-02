@@ -41,11 +41,10 @@ export default defineConfig({
     //video: 'retain-on-failure',
   },
 
-    // 👇 Add your custom fixture as the test entrypoint
-  //globalSetup: "./fixtures/globalSetup.ts", // optional if you need login/session
+
   globalTeardown: undefined,
 
-  // 👇 This is important — tells Playwright to use your fixture test wrapper
+  // All the fixtures path 
   metadata: {
     fixtureFile: "./fixtures/appFixture.ts",
   },
