@@ -27,5 +27,4 @@ async openBaseURL(path: string = "/") {
 
   await this.page.goto(`${baseURL}${path}`, { waitUntil: "load" });
 }
-
 }
