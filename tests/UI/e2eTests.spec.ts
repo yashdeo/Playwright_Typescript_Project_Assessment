@@ -1,7 +1,7 @@
 import { test, expect } from "@fixtures";
-import {datesGenerator} from "utilities/dateGenearator";
+import {datesGenerator} from "@utils/dateGenearator";
 
-test("Book the Rooms", async ({ allPages }) => {
+test.only("Book the Rooms", async ({ allPages }) => {
 
   const { landingPage,bookingPage } = allPages;
  
@@ -11,7 +11,10 @@ test("Book the Rooms", async ({ allPages }) => {
   await allPages.openBaseURL();
   await landingPage.navigateToRooms();
   await bookingPage.selectDates(checkin, checkout);
-  
+  await bookingPage.selectRoomType('double');
+  await bookingPage.completeBookingProcess();
+
+
   /*
   await landingPage.page
     .locator('div')

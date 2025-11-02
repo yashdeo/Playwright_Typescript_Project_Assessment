@@ -1,4 +1,6 @@
 import { Page, expect } from "@playwright/test";
+import { faker } from '@faker-js/faker';
+
 export class BookingPage {
   private readonly checkAvailabilityBtn;
   private readonly bookingSection;
@@ -10,6 +12,17 @@ export class BookingPage {
   private readonly contactDescription;
   private readonly contactSubmitBtn;
   private readonly messageSentConfirmation;
+  private readonly bookNowbuttonForDouble;
+  private readonly textBookThisRoom;
+  private readonly buttonReserveNow;
+  private readonly buttonCancel;
+  private readonly firstName;
+  private readonly lastName;
+  private readonly email;
+  private readonly phone;
+  private readonly bookingConfirmMsg;
+  
+    
 
   constructor(private page: Page) {
     this.checkAvailabilityBtn = page.getByRole("button", { name: "Check Availability" });
@@ -22,6 +35,16 @@ export class BookingPage {
     this.contactDescription = page.getByTestId("ContactDescription");
     this.contactSubmitBtn = page.getByRole("button", { name: "Submit" });
     this.messageSentConfirmation = page.getByRole('heading', { name: 'Thanks for getting in touch' });
+    this.bookNowbuttonForDouble = page.getByRole('link', { name: 'Book now' }).nth(2);
+    this.textBookThisRoom = page.getByRole('heading', { name: 'Book This Room' });
+    this.buttonReserveNow = page.getByRole('button', { name: 'Reserve Now' });
+    this.buttonCancel =  page.getByRole('button', { name: 'Cancel' });
+    this.firstName = page.getByRole('textbox', { name: 'Firstname' });
+    this.lastName = page.getByRole('textbox', { name: 'Lastname' });
+    this.email = page.getByRole('textbox', { name: 'Email' });
+    this.phone = page.getByRole('textbox', { name: 'Phone' });
+    this.bookingConfirmMsg = page.getByRole('heading', { name: 'Booking Confirmed' });
+    
   }
 
   async checkBookingSection() {
@@ -68,4 +91,36 @@ async selectDates(checkinDate: string, checkoutDate: string) {
     await this.page.getByRole('button', { name: 'Check Availability' }).click();
   }
 
+  async selectRoomType(roomType:string){
+    switch(roomType) {
+      case 'single' :
+        break;
+      case 'double' : await this.bookNowbuttonForDouble.click();
+        break;
+      case 'Suite' :
+        break;
+    }
+
+    await expect(this.textBookThisRoom).toBeVisible();
+
+  }
+
+  async completeBookingProcess(){
+  const firstName = faker.person.firstName();
+  const lastName = faker.person.lastName();
+  const email = faker.internet.email({ firstName, lastName });
+  const phone = faker.phone.number({ style: 'international' });
+    await this.buttonReserveNow.click();
+    await expect (this.buttonCancel).toBeVisible();
+    //this.page.waitForLoadState("networkidle");
+    await this.firstName.fill(firstName);
+    await this.lastName.fill(lastName);
+    await this.email.fill(email);
+    await this.phone.fill(phone);
+    await this.buttonReserveNow.click(); 
+    await expect(this.bookingConfirmMsg).toBeVisible({ timeout: 60000 }); // Added explicit wait as its failing sometimes
+    //bookingAmountCalculations()
+  
+    
+  }
 }
