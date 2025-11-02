@@ -8,6 +8,11 @@ export class LandingPage {
   private readonly navLocation;
   private readonly navContact;
   private readonly navAdmin;
+  private readonly checkInInput;
+  private readonly checkOutInput;
+  private readonly checkAvailibilityButton;
+  private readonly roomsSection;
+  
 
   constructor(private page: Page) {
     this.logoLink = page.getByRole("link", { name: "Shady Meadows B&B" });
@@ -17,6 +22,11 @@ export class LandingPage {
     this.navLocation = page.getByRole("link", { name: "Location" });
     this.navContact = page.locator("#navbarNav").getByRole("link", { name: "Contact" });
     this.navAdmin = page.getByRole("link", { name: "Admin", exact: true });
+    this.checkInInput = page.locator('div:has(label:text("Check In")) input');
+    this.checkOutInput = page.locator('div:has(label:text("Check Out")) input');
+    this.checkAvailibilityButton= page.getByRole('button', { name: 'Check Availability' });
+    this.roomsSection =  page.getByText('Comfortable beds and delightful breakfast from locally sourced ingredients');
+
   }
 
   async open() {

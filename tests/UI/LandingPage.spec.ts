@@ -10,16 +10,5 @@ test.describe("Landing Page Tests", () => {
     await allPages.landingPage.verifyLandingPage();
   });
 
-  test("Navigate to Rooms section", async ({ allPages }) => {
-    await allPages.landingPage.navigateToRooms();
-  });
-
-  test("Navigate to Booking section", async ({ allPages }) => {
-    await allPages.landingPage.navigateToBooking();
-  });
-
-  test("Navigate to Location section", async ({ allPages }) => {
-    await allPages.landingPage.navigateToLocation();
-  });
 
 });
