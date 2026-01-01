@@ -1,4 +1,3 @@
-# Azure Pipeline for Playwright + TypeScript
 trigger:
   branches:
     include:
@@ -23,27 +22,16 @@ steps:
       npx playwright install --with-deps
     displayName: 'Install Playwright browsers'
 
-  # ✅ Run Playwright tests and output results in JUnit format
+  # Run tests (continue so we can publish report even if tests fail)
   - script: |
-      npx playwright test --reporter=junit,html
-    displayName: 'Run Playwright tests'
+      npx playwright test --reporter=html
+    displayName: 'Run Playwright tests (HTML report)'
     continueOnError: true
 
-  # ✅ Publish test results (reads JUnit XML files from Playwright output)
-  - task: PublishTestResults@2
-    displayName: 'Publish Playwright test results'
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFiles: '**/results.xml'
-      testResultsFormat: 'JUnit'
-      searchFolder: '$(System.DefaultWorkingDirectory)'
-      testRunTitle: 'Playwright Tests'
-
-  # ✅ Publish Playwright HTML report as an artifact (optional)
-  - task: PublishBuildArtifacts@1
+  # Ensure the report folder exists; Playwright uses playwright-report by default
+  - task: PublishPipelineArtifact@1
     displayName: 'Publish Playwright HTML report'
-    inputs:
-      PathtoPublish: 'playwright-report'
-      ArtifactName: 'playwright-report'
-      publishLocation: 'Container'
     condition: succeededOrFailed()
+    inputs:
+      targetPath: 'playwright-report'
+      artifact: 'playwright-report'
