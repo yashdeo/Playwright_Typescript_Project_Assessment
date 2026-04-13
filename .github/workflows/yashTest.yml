@@ -6,7 +6,7 @@ name: testYash
 on:
   # Triggers the workflow on push events
   push:
-    # Uncomment this if you want to restrict to main branch
+    # Uncomment this if you want to restrict to the main branch
     # branches: [ "main" ]
 
     # ✅ Run ONLY when PageObjects folder changes
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE
+      # Checks out your repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v4
 
       # Runs a single command
